@@ -1,0 +1,26 @@
+# compiled output
+/dist
+/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+
+# IDEs
+.idea
+.vscode
+*.swp
+*.swo
+
+# Environment
+.env
+
+# PM2
+.pm2
