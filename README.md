@@ -259,6 +259,8 @@ Alternatively, connect your GitHub repository to Vercel for automatic deployment
 
 ## 📸 Screenshots
 
+![Screenshots Page](./docs/screenshots)
+
 ### Login Page
 Beautiful gradient login/register interface with form validation.
 
