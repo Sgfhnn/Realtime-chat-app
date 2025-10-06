@@ -259,7 +259,7 @@ Alternatively, connect your GitHub repository to Vercel for automatic deployment
 
 ## 📸 Screenshots
 
-![Screenshots Page](./docs/screenshots)
+![Screenshots Page](https://github.com/Sgfhnn/Realtime-chat-app/blob/main/SCREENSHOTS.md)
 
 ### Login Page
 Beautiful gradient login/register interface with form validation.
