@@ -5,7 +5,7 @@ This document contains screenshots of the Real-Time Chat Application.
 ## 🔐 Authentication
 
 ### Login Page
-![Login Page](./docs/screenshots/login.png)
+![Login Page](./docs/screenshots/log-in.png)
 *Beautiful gradient login interface with form validation*
 
 ### Register Page
