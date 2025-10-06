@@ -15,16 +15,13 @@ This document contains screenshots of the Real-Time Chat Application.
 ## 💬 Chat Interface
 
 ### Main Chat View
-![Chat Interface](./docs/screenshots/chat-main.png)
+![Chat Interface](./docs/screenshots/chat-main.jpg)
 *Modern chat UI with user sidebar and message area*
 
 ### User Sidebar
 ![User Sidebar](./docs/screenshots/user-sidebar.png)
 *List of available users to chat with*
 
-### Message View
-![Messages](./docs/screenshots/messages.png)
-*Real-time message display with timestamps*
 
 ### Real-Time Messaging
 ![Real-Time Demo](./docs/screenshots/realtime-demo.gif)
