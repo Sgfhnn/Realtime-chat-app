@@ -38,15 +38,9 @@ This document contains screenshots of the Real-Time Chat Application.
 
 ## 🎨 Features Showcase
 
-### User Profile
-![User Profile](./docs/screenshots/profile.png)
-*User profile display with avatar*
+
 
 ### Empty State
 ![Empty State](./docs/screenshots/empty-state.png)
 *UI when no chat is selected*
-
-### Message History
-![Message History](./docs/screenshots/message-history.png)
-*Persistent message history with scroll*
 
