@@ -14,9 +14,6 @@ A full-stack real-time chat application built with NestJS, Socket.IO, Prisma, Po
 
 ## 📚 Documentation
 
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide for Render & Vercel
-- **[TESTING.md](./TESTING.md)** - Testing guide and best practices
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute to this project
 - **[SCREENSHOTS.md](./SCREENSHOTS.md)** - Application screenshots and UI showcase
 - **[LICENSE](./LICENSE)** - MIT License
 
@@ -259,7 +256,7 @@ Alternatively, connect your GitHub repository to Vercel for automatic deployment
 
 ## 📸 Screenshots
 
-![Screenshots Page](https://github.com/Sgfhnn/Realtime-chat-app/blob/main/SCREENSHOTS.md)
+[Screenshots Page](https://github.com/Sgfhnn/Realtime-chat-app/blob/main/SCREENSHOTS.md)
 
 ### Login Page
 Beautiful gradient login/register interface with form validation.
