@@ -2,25 +2,30 @@ services:
   - type: web
     name: chatapp-backend
     env: node
+    plan: free
     buildCommand: cd backend && npm ci && npx prisma generate && npm run build
     startCommand: cd backend && npx prisma migrate deploy && npm run start:prod
     envVars:
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: chatapp-postgres
+          property: connectionString
       - key: JWT_SECRET
         generateValue: true
       - key: REDIS_URL
-        sync: false
+        fromService:
+          type: redis
+          name: chatapp-redis
+          property: connectionString
       - key: NODE_ENV
         value: production
-    autoDeploy: false
 
   - type: redis
     name: chatapp-redis
-    ipAllowList: []
+    plan: free
 
   - type: pserv
     name: chatapp-postgres
+    plan: free
     databaseName: chatapp
     databaseUser: chatapp
-    ipAllowList: []
