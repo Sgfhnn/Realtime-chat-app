@@ -7,7 +7,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schema   = "chatapp"
 }
 
 model User {
@@ -19,23 +18,25 @@ model User {
   lastSeen  DateTime  @default(now())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  
+
   sentMessages     Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
+
+  @@map("chat_users")
 }
 
 model Message {
   id         String   @id @default(uuid())
   content    String
-  createdAt  DateTime @default(now())
-  
   senderId   String
-  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
-  
   receiverId String
-  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  
+  createdAt  DateTime @default(now())
+
+  sender   User @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
   @@index([senderId])
   @@index([receiverId])
   @@index([createdAt])
+  @@map("chat_messages")
 }
