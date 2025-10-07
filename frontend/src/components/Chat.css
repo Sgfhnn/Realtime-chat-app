@@ -64,33 +64,58 @@
   color: #666;
   font-size: 0.9em;
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .user-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 15px;
+  padding: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 10px;
-  transition: background 0.2s;
-  margin-bottom: 5px;
+  transition: background-color 0.2s;
+  margin-bottom: 4px;
 }
 
 .user-item:hover {
-  background: #e8eaf6;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .user-item.active {
-  background: #667eea;
-  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.user-avatar-container {
+  position: relative;
+  margin-right: 12px;
+}
+
+.status-indicator {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.status-indicator.online {
+  background-color: #10b981;
+}
+
+.status-indicator.offline {
+  background-color: #6b7280;
+}
+
+.user-status {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
 }
 
 .user-item.active .user-email {
   color: rgba(255, 255, 255, 0.8);
 }
-
 .user-avatar {
   width: 45px;
   height: 45px;
@@ -212,19 +237,82 @@
   cursor: pointer;
   transition: transform 0.2s;
 }
-
 .send-btn:hover {
   transform: scale(1.05);
 }
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    max-width: 300px;
+  .chat-container {
+    flex-direction: column;
   }
   
-  .chat-container {
-    height: 100vh;
+  .sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+  }
+  
+  .users-list {
+    max-height: 120px;
+  }
+  
+  .chat-main {
+    height: calc(100vh - 200px);
+  }
+  
+  .user-item {
+    padding: 8px;
+  }
+  
+  .user-avatar {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  .status-indicator {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .user-name {
+    font-size: 0.9rem;
+  }
+  
+  .user-status {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-header {
+    padding: 8px;
+  }
+  
+  .sidebar-header h3 {
+    font-size: 1rem;
+  }
+  
+  .logout-btn {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .user-info {
+    padding: 8px;
+  }
+  
+  .message-input-container {
+    padding: 8px;
+  }
+  
+  .message-input {
+    font-size: 14px;
+  }
+  
+  .send-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
   }
 }

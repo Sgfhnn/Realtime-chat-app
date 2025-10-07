@@ -10,41 +10,16 @@ function Chat({ user, token, apiUrl, onLogout }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const socketRef = useRef(null);
-
-  useEffect(() => {
-    // Fetch users
-    fetchUsers();
-
-    // Initialize Socket.IO connection
-    socketRef.current = io(apiUrl, {
-      transports: ['websocket', 'polling'],
-    });
-
-    // Register user with socket
-    socketRef.current.emit('register', { userId: user.id });
-
-    // Listen for new messages
-    socketRef.current.on('newMessage', (message) => {
-      setMessages((prev) => [...prev, message]);
-    });
-
-    socketRef.current.on('messageConfirmed', (message) => {
-      setMessages((prev) => [...prev, message]);
-    });
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-    };
-  }, [user.id, apiUrl]);
+  const usersRef = useRef([]);
 
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`${apiUrl}/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log('Fetched users:', response.data);
       setUsers(response.data);
+      usersRef.current = response.data;
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -61,15 +36,100 @@ function Chat({ user, token, apiUrl, onLogout }) {
     }
   };
 
+  useEffect(() => {
+    // Fetch users
+    fetchUsers();
+
+    // Initialize Socket.IO connection
+    socketRef.current = io(apiUrl, {
+      transports: ['websocket', 'polling'],
+    });
+
+    socketRef.current.on('connect', () => {
+      console.log('Socket.IO connected:', socketRef.current.id);
+    });
+
+    socketRef.current.on('disconnect', () => {
+      console.log('Socket.IO disconnected');
+    });
+
+    // Register user with socket
+    console.log('Registering user:', user.id);
+    socketRef.current.emit('register', { userId: user.id });
+
+    // Listen for new messages
+    socketRef.current.on('newMessage', (message) => {
+      console.log('Received new message:', message);
+      
+      // Always add message to the messages list first
+      setMessages((prev) => {
+        // Check if message already exists to avoid duplicates
+        const exists = prev.some(m => m.id === message.id);
+        if (exists) return prev;
+        return [...prev, message];
+      });
+      
+      // Auto-open chat if no chat is currently open and this is an incoming message
+      setSelectedUser((currentSelected) => {
+        if (!currentSelected && message.receiverId === user.id) {
+          const sender = usersRef.current.find(u => u.id === message.senderId);
+          if (sender) {
+            console.log('Auto-opening chat with:', sender.username);
+            // Fetch all messages for this conversation to get full history
+            setTimeout(() => fetchMessages(sender.id), 100);
+            return sender;
+          }
+        }
+        return currentSelected;
+      });
+    });
+
+    socketRef.current.on('messageConfirmed', (message) => {
+      console.log('Message confirmed:', message);
+      setMessages((prev) => {
+        // Check if message already exists to avoid duplicates
+        const exists = prev.some(m => m.id === message.id);
+        if (exists) return prev;
+        return [...prev, message];
+      });
+    });
+
+    // Listen for user status changes
+    socketRef.current.on('userStatusChanged', ({ userId, isOnline, lastSeen }) => {
+      console.log('User status changed:', { userId, isOnline, lastSeen });
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === userId
+            ? { ...user, isOnline, lastSeen: lastSeen || user.lastSeen }
+            : user
+        )
+      );
+    });
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.id, apiUrl]);
+
   const handleUserSelect = (selectedUser) => {
+    console.log('Selecting user:', selectedUser.username);
     setSelectedUser(selectedUser);
+    setMessages([]);
     fetchMessages(selectedUser.id);
   };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    
     if (!newMessage.trim() || !selectedUser) return;
+
+    console.log('Sending message:', {
+      senderId: user.id,
+      receiverId: selectedUser.id,
+      content: newMessage,
+    });
 
     // Emit message via Socket.IO
     socketRef.current.emit('sendMessage', {
@@ -79,6 +139,29 @@ function Chat({ user, token, apiUrl, onLogout }) {
     });
 
     setNewMessage('');
+  };
+
+  const getStatusText = (user) => {
+    if (user.isOnline) {
+      return 'Online';
+    }
+    
+    if (user.lastSeen) {
+      const lastSeenDate = new Date(user.lastSeen);
+      const now = new Date();
+      const diffMinutes = Math.floor((now - lastSeenDate) / (1000 * 60));
+      
+      if (diffMinutes < 1) return 'Just now';
+      if (diffMinutes < 60) return `${diffMinutes}m ago`;
+      
+      const diffHours = Math.floor(diffMinutes / 60);
+      if (diffHours < 24) return `${diffHours}h ago`;
+      
+      const diffDays = Math.floor(diffHours / 24);
+      return `${diffDays}d ago`;
+    }
+    
+    return 'Offline';
   };
 
   return (
@@ -103,10 +186,13 @@ function Chat({ user, token, apiUrl, onLogout }) {
               className={`user-item ${selectedUser?.id === u.id ? 'active' : ''}`}
               onClick={() => handleUserSelect(u)}
             >
-              <div className="user-avatar">{u.username[0].toUpperCase()}</div>
+              <div className="user-avatar-container">
+                <div className="user-avatar">{u.username[0].toUpperCase()}</div>
+                <div className={`status-indicator ${u.isOnline ? 'online' : 'offline'}`}></div>
+              </div>
               <div className="user-details">
                 <div className="user-name">{u.username}</div>
-                <div className="user-email">{u.email}</div>
+                <div className="user-status">{getStatusText(u)}</div>
               </div>
             </div>
           ))}
@@ -128,7 +214,13 @@ function Chat({ user, token, apiUrl, onLogout }) {
               </div>
             </div>
 
-            <MessageList messages={messages} currentUserId={user.id} />
+            <MessageList 
+              messages={messages.filter(msg => 
+                (msg.senderId === user.id && msg.receiverId === selectedUser.id) ||
+                (msg.senderId === selectedUser.id && msg.receiverId === user.id)
+              )} 
+              currentUserId={user.id} 
+            />
 
             <form onSubmit={handleSendMessage} className="message-input-container">
               <input

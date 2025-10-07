@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Login from './components/Login';
+import HomePage from './components/HomePage';
 import Chat from './components/Chat';
 import './App.css';
 
@@ -37,7 +37,7 @@ function App() {
   return (
     <div className="App">
       {!user ? (
-        <Login onLogin={handleLogin} apiUrl={API_URL} />
+        <HomePage onLogin={handleLogin} apiUrl={API_URL} />
       ) : (
         <Chat user={user} token={token} apiUrl={API_URL} onLogout={handleLogout} />
       )}

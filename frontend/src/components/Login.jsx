@@ -2,8 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import './Login.css';
 
-function Login({ onLogin, apiUrl }) {
-  const [isLogin, setIsLogin] = useState(true);
+function Login({ onLogin, apiUrl, isRegister = false, onToggle }) {
+  const [isLogin, setIsLogin] = useState(!isRegister);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

@@ -24,6 +24,8 @@ export class UsersService {
         id: true,
         email: true,
         username: true,
+        isOnline: true,
+        lastSeen: true,
         createdAt: true,
       },
     });

@@ -12,6 +12,41 @@ A full-stack real-time chat application built with NestJS, Socket.IO, Prisma, Po
 - **Modern and responsive UI** with React
 - **Scalable architecture** ready for deployment
 
+## 📚 Documentation
+
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide for Render & Vercel
+- **[TESTING.md](./TESTING.md)** - Testing guide and best practices
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute to this project
+- **[SCREENSHOTS.md](./SCREENSHOTS.md)** - Application screenshots and UI showcase
+- **[LICENSE](./LICENSE)** - MIT License
+
+## 🐳 Quick Start with Docker
+
+If you have Docker installed, start everything with one command:
+
+**Windows:**
+```bash
+docker-start.bat
+```
+
+**Mac/Linux:**
+```bash
+chmod +x docker-start.sh
+./docker-start.sh
+```
+
+This will start:
+- PostgreSQL database
+- Redis cache
+- Backend API (with PM2 cluster mode)
+
+Then start the frontend separately:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
 ## 📦 Tech Stack
 
 ### Backend
@@ -324,3 +359,33 @@ npm run dev
 ```
 
 Visit `http://localhost:5173` and start chatting! 🎉
+
+## ⚡ Convenience Scripts
+
+For easier development, use these root-level commands:
+
+```bash
+# Install all dependencies (backend + frontend)
+npm run install:all
+
+# Run both backend and frontend concurrently
+npm run dev
+
+# Build both projects
+npm run build
+
+# Docker commands
+npm run docker:up      # Start with Docker
+npm run docker:down    # Stop Docker containers
+npm run docker:logs    # View logs
+
+# Prisma commands
+npm run prisma:generate  # Generate Prisma Client
+npm run prisma:migrate   # Run migrations
+npm run prisma:studio    # Open Prisma Studio
+```
+
+**Note:** You need to install `concurrently` first:
+```bash
+npm install
+```

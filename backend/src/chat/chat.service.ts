@@ -60,4 +60,14 @@ export class ChatService {
       },
     });
   }
+
+  async updateUserStatus(userId: string, isOnline: boolean) {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        isOnline,
+        lastSeen: new Date(),
+      },
+    });
+  }
 }
