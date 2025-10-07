@@ -6,8 +6,8 @@ async function bootstrap() {
   
   // Enable CORS for frontend
   app.enableCors({
-    origin: process.env.NODE_ENV === 'production' 
-      ? ['https://your-frontend-domain.vercel.app', 'https://your-custom-domain.com']
+    origin: process.env.NODE_ENV === 'production'
+      ? ['https://realtime-chat-app-pink-three.vercel.app']
       : true,
     credentials: true,
   });
