@@ -1,14 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import ChatInterface from '@/components/ChatInterface'
 import LandingPage from '@/components/LandingPage'
 
 export default function Home() {
   const { user, loading, signOut } = useAuth()
-  const router = useRouter()
 
   if (loading) {
     return (
