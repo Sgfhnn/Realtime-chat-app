@@ -3,9 +3,14 @@
 import { useAuth } from '@/contexts/AuthContext'
 import ChatInterface from '@/components/ChatInterface'
 import LandingPage from '@/components/LandingPage'
+import { useEffect } from 'react'
 
 export default function Home() {
   const { user, loading, signOut } = useAuth()
+
+  useEffect(() => {
+    console.log('Home Page State:', { user, loading })
+  }, [user, loading])
 
   if (loading) {
     return (
