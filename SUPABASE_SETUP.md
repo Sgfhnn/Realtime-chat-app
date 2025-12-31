@@ -1,3 +1,5 @@
+
+
 # Supabase Database Setup
 
 To get your Chat App working, you need to create the database tables in Supabase.
