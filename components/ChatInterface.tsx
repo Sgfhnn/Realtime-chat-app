@@ -36,6 +36,8 @@ export default function ChatInterface() {
     const channelRef = useRef<RealtimeChannel | null>(null)
     const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
+    const [showSidebar, setShowSidebar] = useState(true)
+
     // Scroll to bottom of messages
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -44,6 +46,12 @@ export default function ChatInterface() {
     useEffect(() => {
         scrollToBottom()
     }, [messages, typingUsers])
+
+    // Handle user selection for mobile
+    const handleSelectUser = (user: ChatUser) => {
+        setSelectedUser(user)
+        setShowSidebar(false)
+    }
 
     // Fetch users
     useEffect(() => {
@@ -213,9 +221,9 @@ export default function ChatInterface() {
     }
 
     return (
-        <div className="flex h-[calc(100vh-8rem)] bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-700">
+        <div className="flex h-[calc(100vh-8rem)] bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-700 relative">
             {/* Sidebar - Users List */}
-            <div className="w-1/3 border-r border-gray-700 bg-gray-900 flex flex-col">
+            <div className={`${showSidebar ? 'flex' : 'hidden'} md:flex w-full md:w-1/3 border-r border-gray-700 bg-gray-900 flex-col`}>
                 <div className="p-4 border-b border-gray-700 bg-gray-800">
                     <h2 className="text-lg font-semibold text-white">Chats</h2>
                 </div>
@@ -230,7 +238,7 @@ export default function ChatInterface() {
                             return (
                                 <div
                                     key={user.id}
-                                    onClick={() => setSelectedUser(user)}
+                                    onClick={() => handleSelectUser(user)}
                                     className={`p-4 cursor-pointer hover:bg-gray-800 transition-colors border-b border-gray-800 ${selectedUser?.id === user.id ? 'bg-gray-800 border-l-4 border-l-blue-500' : ''
                                         }`}
                                 >
@@ -265,12 +273,21 @@ export default function ChatInterface() {
             </div>
 
             {/* Main Chat Area */}
-            <div className="flex-1 flex flex-col bg-gray-900">
+            <div className={`${!showSidebar ? 'flex' : 'hidden'} md:flex flex-1 flex-col bg-gray-900`}>
                 {selectedUser ? (
                     <>
                         {/* Chat Header */}
                         <div className="p-4 border-b border-gray-700 flex items-center justify-between bg-gray-800 shadow-sm z-10">
                             <div className="flex items-center space-x-3">
+                                {/* Back button for mobile */}
+                                <button
+                                    onClick={() => setShowSidebar(true)}
+                                    className="md:hidden p-2 -ml-2 text-gray-400 hover:text-white transition-colors"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                    </svg>
+                                </button>
                                 <div className="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center text-blue-300 font-bold border border-blue-700">
                                     {selectedUser.username.charAt(0).toUpperCase()}
                                 </div>
@@ -316,9 +333,9 @@ export default function ChatInterface() {
                                             className={`flex ${isMyMessage ? 'justify-end' : 'justify-start'}`}
                                         >
                                             <div
-                                                className={`max-w-[70%] rounded-2xl px-4 py-2 shadow-md ${isMyMessage
-                                                        ? 'bg-blue-600 text-white rounded-br-none'
-                                                        : 'bg-gray-700 text-gray-200 border border-gray-600 rounded-bl-none'
+                                                className={`max-w-[85%] md:max-w-[70%] rounded-2xl px-4 py-2 shadow-md ${isMyMessage
+                                                    ? 'bg-blue-600 text-white rounded-br-none'
+                                                    : 'bg-gray-700 text-gray-200 border border-gray-600 rounded-bl-none'
                                                     }`}
                                             >
                                                 <p className="text-sm">{msg.content}</p>
@@ -356,14 +373,20 @@ export default function ChatInterface() {
                         </div>
                     </>
                 ) : (
-                    <div className="flex-1 flex items-center justify-center bg-gray-900 flex-col text-gray-500">
+                    <div className="flex-1 flex items-center justify-center bg-gray-900 flex-col text-gray-500 p-4">
                         <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mb-6 border border-gray-700 shadow-xl">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-blue-500">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
                             </svg>
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">Welcome to ChatApp</h3>
+                        <h3 className="text-2xl font-bold text-white mb-2 text-center">Welcome to ChatApp</h3>
                         <p className="text-gray-400 max-w-sm text-center">Select a user from the sidebar to start messaging instantly.</p>
+                        <button
+                            onClick={() => setShowSidebar(true)}
+                            className="md:hidden mt-8 bg-blue-600 text-white px-6 py-2 rounded-full font-bold"
+                        >
+                            View Chats
+                        </button>
                     </div>
                 )}
             </div>

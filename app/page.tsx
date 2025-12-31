@@ -8,9 +8,6 @@ import { useEffect } from 'react'
 export default function Home() {
   const { user, loading, signOut } = useAuth()
 
-  useEffect(() => {
-    console.log('Home Page State:', { user, loading })
-  }, [user, loading])
 
   if (loading) {
     return (
@@ -52,7 +49,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8">
         <ChatInterface />
       </main>
     </div>
