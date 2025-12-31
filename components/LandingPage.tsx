@@ -29,6 +29,7 @@ export default function LandingPage() {
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
                         Connect instantly.<br />Anywhere.
                     </h1>
+                    <div className="text-blue-500 font-bold mb-4">Welcome to the Home Page</div>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
                         Experience the future of messaging with our ultra-fast, secure, and beautiful chat application. Built for speed, designed for you.
                     </p>
