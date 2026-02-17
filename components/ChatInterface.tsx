@@ -221,9 +221,9 @@ export default function ChatInterface() {
     }
 
     return (
-        <div className="flex h-[calc(100vh-8rem)] bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-700 relative">
+        <div className="flex h-screen md:h-[calc(100vh-8rem)] bg-gray-800 md:rounded-lg shadow-xl overflow-hidden md:border border-gray-700 relative">
             {/* Sidebar - Users List */}
-            <div className={`${showSidebar ? 'flex' : 'hidden'} md:flex w-full md:w-1/3 border-r border-gray-700 bg-gray-900 flex-col`}>
+            <div className={`${showSidebar ? 'flex' : 'hidden md:flex'} w-full md:w-1/3 border-r border-gray-700 bg-gray-900 flex-col`}>
                 <div className="p-4 border-b border-gray-700 bg-gray-800">
                     <h2 className="text-lg font-semibold text-white">Chats</h2>
                 </div>
@@ -273,7 +273,7 @@ export default function ChatInterface() {
             </div>
 
             {/* Main Chat Area */}
-            <div className={`${!showSidebar ? 'flex' : 'hidden'} md:flex flex-1 flex-col bg-gray-900`}>
+            <div className={`${!showSidebar ? 'flex' : 'hidden md:flex'} flex-1 flex-col bg-gray-900`}>
                 {selectedUser ? (
                     <>
                         {/* Chat Header */}
@@ -333,7 +333,7 @@ export default function ChatInterface() {
                                             className={`flex ${isMyMessage ? 'justify-end' : 'justify-start'}`}
                                         >
                                             <div
-                                                className={`max-w-[85%] md:max-w-[70%] rounded-2xl px-4 py-2 shadow-md ${isMyMessage
+                                                className={`max-w-[90%] md:max-w-[70%] rounded-2xl px-4 py-2 shadow-md ${isMyMessage
                                                     ? 'bg-blue-600 text-white rounded-br-none'
                                                     : 'bg-gray-700 text-gray-200 border border-gray-600 rounded-bl-none'
                                                     }`}

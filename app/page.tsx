@@ -22,10 +22,10 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
-      {/* Header */}
-      <header className="bg-gray-800 shadow-lg border-b border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+    <div className="min-h-screen bg-gray-900 flex flex-col">
+      {/* Header - Hide on mobile if preferred or keep it small */}
+      <header className="bg-gray-800 shadow-lg border-b border-gray-700 sticky top-0 z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
@@ -34,13 +34,13 @@ export default function Home() {
             </div>
             <h1 className="text-xl font-bold text-white tracking-tight">ChatApp</h1>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="hidden sm:block text-sm text-gray-400">
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="hidden md:block text-sm text-gray-400">
               Logged in as <span className="font-semibold text-blue-400">{user.email}</span>
             </div>
             <button
               onClick={signOut}
-              className="text-sm text-red-400 hover:text-red-300 font-medium transition-colors px-3 py-1 rounded-md hover:bg-red-900/20"
+              className="text-xs md:text-sm text-red-400 hover:text-red-300 font-medium transition-colors px-2 md:px-3 py-1 rounded-md hover:bg-red-900/20"
             >
               Sign out
             </button>
@@ -49,7 +49,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 md:py-8 overflow-hidden">
         <ChatInterface />
       </main>
     </div>
