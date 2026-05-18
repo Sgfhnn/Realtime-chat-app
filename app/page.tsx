@@ -22,7 +22,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col">
+    <div className="h-[100dvh] bg-gray-900 flex flex-col">
       {/* Header - Hide on mobile if preferred or keep it small */}
       <header className="bg-gray-800 shadow-lg border-b border-gray-700 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center">
@@ -49,7 +49,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 md:py-8 overflow-hidden">
+      <main className="flex-1 flex flex-col min-h-0 max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 md:py-8 overflow-hidden">
         <ChatInterface />
       </main>
     </div>

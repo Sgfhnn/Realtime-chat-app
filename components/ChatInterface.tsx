@@ -221,7 +221,7 @@ export default function ChatInterface() {
     }
 
     return (
-        <div className="flex h-screen md:h-[calc(100vh-8rem)] bg-gray-800 md:rounded-lg shadow-xl overflow-hidden md:border border-gray-700 relative">
+        <div className="flex flex-1 w-full bg-gray-800 md:rounded-lg shadow-xl overflow-hidden md:border border-gray-700 relative">
             {/* Sidebar - Users List */}
             <div className={`${showSidebar ? 'flex' : 'hidden md:flex'} w-full md:w-1/3 border-r border-gray-700 bg-gray-900 flex-col`}>
                 <div className="p-4 border-b border-gray-700 bg-gray-800">
